@@ -1,0 +1,40 @@
+// Pin Definitions
+const int gasSensorPin = A0;   // Analog input pin where the gas sensor is connected
+const int ledPin = 13;         // LED to indicate detection (optional)
+
+int sensorValue = 0;           // Variable to store the sensor value
+int threshold = 300;           // Threshold for detecting smoke (adjustable)
+
+void setup() {
+  // Start the Serial Monitor
+  Serial.begin(9600);
+  
+  // Set the LED pin as output
+  pinMode(ledPin, OUTPUT);
+  
+  // Give the sensor time to warm up (typically 1-2 minutes)
+  delay(2000); 
+}
+
+void loop() {
+  // Read the analog sensor value (gas concentration)
+  sensorValue = analogRead(gasSensorPin);
+  
+  // Print the sensor value to the Serial Monitor for debugging
+  Serial.print("Sensor Value: ");
+  Serial.println(sensorValue);
+  
+  // Check if the sensor value exceeds the threshold
+  if (sensorValue > threshold) {
+    // If smoke or gas is detected (above threshold), turn on the LED
+    digitalWrite(ledPin, HIGH);
+    Serial.println("Gas Detected!");
+  } else {
+    // If no smoke or gas is detected, turn off the LED
+    digitalWrite(ledPin, LOW);
+    Serial.println("No Gas Detected.");
+  }
+  
+  // Small delay before reading the sensor again
+  delay(500);
+}
